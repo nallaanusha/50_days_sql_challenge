@@ -30,7 +30,8 @@ third highest salary from the Employee table.
 */
 
 
-
+With cte as (select *,denseRank() over(order by Salary) as dn from employees)
+select * from cte where dn=3
 
 
 
@@ -61,7 +62,15 @@ WHERE drn = 3
 -- Your task
 -- Find the employee details who has highest salary from each department
 
-
+SELECT 
+	salary as third_highest_salary
+FROM
+(	SELECT 
+		*,
+		DENSE_RANK() OVER( partition by Department ORDER BY salary desc) drn
+	FROM employees
+) as subquery	
+WHERE drn = 3
 
 
 
